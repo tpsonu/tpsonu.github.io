@@ -5,7 +5,6 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Github, Linkedin, Twitter, Calendar, FileText, Cloud, Server, Database, MessageSquare, Smartphone, PenTool, Mail, Phone, MapPin } from 'lucide-react'
-import { Link as ScrollLink } from "react-scroll"
 import CustomCursor from "@/components/custom-cursor"
 import Navbar from "@/components/navbar"
 import SocialIcon from "@/components/social-icon"
@@ -14,6 +13,14 @@ import AboutMe from "@/components/about-me"
 import Loading from "@/components/loading"
 import InteractiveShapes from "@/components/InteractiveShapes"
 import AnimatedBoxes from "@/components/AnimatedBoxes"
+
+// Simple scroll function to replace react-scroll
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  }
+}
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -59,19 +66,19 @@ export default function Home() {
               ☁️ Cloud & DevOps Engineer | AWS Specialist | Infrastructure Automation Expert
             </h2>
             <div className="flex flex-wrap justify-center gap-4">
-              <ScrollLink to="work" smooth={true} duration={500}>
-                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
-                  View Projects
-                </Button>
-              </ScrollLink>
-              <ScrollLink to="contact" smooth={true} duration={500}>
-                <Button
-                  variant="outline"
-                  className="bg-transparent border-2 border-purple-500 text-white hover:bg-purple-500 hover:text-white transition-all duration-300"
-                >
-                  Contact Me
-                </Button>
-              </ScrollLink>
+              <Button 
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+                onClick={() => scrollToSection('work')}
+              >
+                View Projects
+              </Button>
+              <Button
+                variant="outline"
+                className="bg-transparent border-2 border-purple-500 text-white hover:bg-purple-500 hover:text-white transition-all duration-300"
+                onClick={() => scrollToSection('contact')}
+              >
+                Contact Me
+              </Button>
             </div>
           </motion.div>
         </div>
@@ -303,7 +310,7 @@ export default function Home() {
   )
 }
 
-function ServiceCard({ icon, title, description }) {
+function ServiceCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
     <div className="p-6 rounded-lg bg-gray-900 border border-gray-800 hover:border-purple-500 transition-all duration-300 text-center md:text-left">
       <div className="mb-4 flex justify-center md:justify-start">{icon}</div>
@@ -313,7 +320,7 @@ function ServiceCard({ icon, title, description }) {
   )
 }
 
-function ProjectCard({ title, description, tags, image }) {
+function ProjectCard({ title, description, tags }: { title: string; description: string; tags: string[] }) {
   return (
     <div className="p-6 rounded-lg bg-gray-900 border border-gray-800 hover:border-purple-500 transition-all duration-300">
       <h3 className="text-xl font-bold mb-3 text-white text-center md:text-left">{title}</h3>
